@@ -1,0 +1,148 @@
+# Standards: 1.2
+---
+- name: Install required packages
+  loop:
+    - ferm
+  package:
+    name: "{{ item }}"
+    state: present
+  tags:
+    - ferm
+
+- name: Create required directories
+  loop:
+    - /etc/ferm/before.d
+    - /etc/ferm/ferm.d
+    - /etc/ferm/input.d
+    - /etc/ferm/output.d
+    - /etc/ferm/forward.d
+    - /etc/ferm/pre.d
+    - /etc/ferm/post.d
+    - /etc/ferm/flush.d
+  file:
+    path: "{{ item }}"
+    owner: root
+    group: root
+    state: directory
+  tags:
+    - ferm
+
+- name: Write default config
+  notify:
+    - Restart ferm
+  template:
+    src: default.j2
+    dest: /etc/default/ferm
+  tags:
+    - ferm
+
+- name: Write general config
+  notify:
+    - Restart ferm
+  template:
+    src: config.j2
+    dest: /etc/ferm/ferm.conf
+  tags:
+    - ferm
+
+- name: Rules from content
+  loop: "{{ ferm_general_rules + ferm_group_rules + ferm_host_rules }}"
+  loop_control:
+    label: "{{ item.type | default('ferm') }}: {{ item.name }}"
+  when: item.state | default("present") == "present" and item.content | default(False)
+  notify:
+    - Restart ferm
+  copy:
+    content: "{{ item.content }}"
+    dest: "/etc/ferm/{{ item.type | default('ferm') }}.d/{{ item.weight | default(ferm_default_weight) }}_{{ item.name }}.ferm"
+    owner: root
+    group: root
+    mode: u=rw,g=r,o=r
+  tags:
+    - ferm
+
+- name: Rules from templates
+  loop: "{{ ferm_general_rules + ferm_group_rules + ferm_host_rules }}"
+  loop_control:
+    label: "{{ item.type | default('ferm') }}: {{ item.name }}"
+  when: item.state | default("present") == "present" and item.src | default(False)
+  notify:
+    - Restart ferm
+  template:
+    src: "{{ item.src }}"
+    dest: "/etc/ferm/{{ item.type | default('ferm') }}.d/{{ item.weight | default(ferm_default_weight) }}_{{ item.name }}.ferm"
+    owner: root
+    group: root
+    mode: u=rw,g=r,o=r
+  tags:
+    - ferm
+
+- name: Delete rule files
+  loop: "{{ ferm_general_rules + ferm_group_rules + ferm_host_rules }}"
+  loop_control:
+    label: "{{ item.type | default('ferm') }}: {{ item.name }}"
+  when: item.state | default("present") == "absent"
+  notify:
+    - Restart ferm
+  file:
+    path: "/etc/ferm/{{ item.type | default('ferm') }}.d/{{ item.weight | default(ferm_default_weight) }}_{{ item.name }}.ferm"
+    state: absent
+  tags:
+    - ferm
+
+- name: Hooks from content
+  loop: "{{ ferm_general_hooks + ferm_extra_hooks }}"
+  loop_control:
+    label: "{{ item.type | default('unknown') }}: {{ item.name }}"
+  when: item.state | default("present") == "present" and item.content | default(False)
+  notify:
+    - Restart ferm
+  copy:
+    content: "{{ item.content }}"
+    dest: "/etc/ferm/{{ item.type | mandatory }}.d/{{ item.weight | default(ferm_default_weight) }}_{{ item.name }}"
+    owner: root
+    group: root
+    mode: u=rwx,g=rx,o=r
+  tags:
+    - ferm
+
+- name: Hooks from templates
+  loop: "{{ ferm_general_hooks + ferm_extra_hooks }}"
+  loop_control:
+    label: "{{ item.type | default('unknown') }}: {{ item.name }}"
+  when: item.state | default("present") == "present" and item.src | default(False)
+  notify:
+    - Restart ferm
+  template:
+    src: "{{ item.src }}"
+    dest: "/etc/ferm/{{ item.type | mandatory }}.d/{{ item.weight | default(ferm_default_weight) }}_{{ item.name }}"
+    owner: root
+    group: root
+    mode: u=rwx,g=rx,o=r
+  tags:
+    - ferm
+
+- name: Delete hook files
+  loop: "{{ ferm_general_hooks + ferm_extra_hooks }}"
+  loop_control:
+    label: "{{ item.type | default('unknown') }}: {{ item.name }}"
+  when: item.state | default("present") == "absent"
+  notify:
+    - Restart ferm
+  file:
+    path: "/etc/ferm/{{ item.type | mandatory }}.d/{{ item.weight | default(ferm_default_weight) }}_{{ item.name }}"
+    state: absent
+  tags:
+    - ferm
+
+- name: Start ferm service
+  systemd:
+    name: ferm
+    state: "{{ 'started' if ferm_enabled else 'stopped' }}"
+    daemon_reload: True
+    masked: False
+    enabled: "{{ True if ferm_enabled else False }}"
+  tags:
+    - ferm
+
+...

@@ -1,0 +1,10 @@
+# Standards: 1.2
+---
+- name: Restart ferm
+  when: ferm_enabled
+  systemd:
+    name: ferm
+    state: restarted
+    daemon_reload: True
+
+...

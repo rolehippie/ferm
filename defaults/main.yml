@@ -1,0 +1,74 @@
+# Standards: 1.2
+---
+# @var ferm_enabled:description: Generally enable or disable ferm
+ferm_enabled: True
+
+# @var ferm_raw_rules:description: Raw rules applied with ferm
+ferm_raw_rules: |
+  @include before.d/;
+
+  domain (ip ip6) {
+    table filter {
+      chain INPUT {
+        policy {{ ferm_default_input_policy }};
+
+        mod state state INVALID DROP;
+        mod state state (ESTABLISHED RELATED) ACCEPT;
+
+        interface lo ACCEPT;
+        proto icmp ACCEPT;
+
+        @include input.d/;
+      }
+
+      chain FORWARD {
+        policy {{ ferm_default_forward_policy }};
+
+        mod state state INVALID DROP;
+        mod state state (ESTABLISHED RELATED) ACCEPT;
+
+        @include forward.d/;
+      }
+
+      chain OUTPUT {
+        policy {{ ferm_default_output_policy }};
+        @include output.d/;
+      }
+    }
+  }
+
+  @include ferm.d/;
+
+# @var ferm_general_rules:description: List of general rule definitions
+ferm_general_rules:
+  - name: ssh
+    weight: 20
+    type: input
+    content: |
+      proto tcp dport ssh ACCEPT;
+
+# @var ferm_group_rules:description: List of group rule definitions
+ferm_group_rules: []
+
+# @var ferm_host_rules:description: List of host rule definitions
+ferm_host_rules: []
+
+# @var ferm_general_hooks:description: List of general hook scripts
+ferm_general_hooks: []
+
+# @var ferm_extra_hooks:description: List of extra hook scripts
+ferm_extra_hooks: []
+
+# @var ferm_default_weight:description: Default weight for rule files
+ferm_default_weight: 50
+
+# @var ferm_default_input_policy:description: Default policy for input chain
+ferm_default_input_policy: DROP
+
+# @var ferm_default_output_policy:description: Default policy for output chain
+ferm_default_output_policy: ACCEPT
+
+# @var ferm_default_forward_policy:description: Default policy for forward chain
+ferm_default_forward_policy: DROP
+
+...

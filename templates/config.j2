@@ -1,0 +1,5 @@
+@hook flush "run-parts /etc/ferm/flush.d";
+@hook pre "run-parts /etc/ferm/pre.d";
+@hook post "run-parts /etc/ferm/post.d";
+
+{{ ferm_raw_rules | trim }}
