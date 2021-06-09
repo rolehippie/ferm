@@ -10,15 +10,7 @@
     - ferm
 
 - name: Create required directories
-  loop:
-    - /etc/ferm/before.d
-    - /etc/ferm/ferm.d
-    - /etc/ferm/input.d
-    - /etc/ferm/output.d
-    - /etc/ferm/forward.d
-    - /etc/ferm/pre.d
-    - /etc/ferm/post.d
-    - /etc/ferm/flush.d
+  loop: "{{ ferm_general_dirs + ferm_group_dirs + ferm_host_dirs }}"
   file:
     path: "{{ item }}"
     owner: root

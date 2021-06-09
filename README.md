@@ -19,9 +19,12 @@ Building and improving this Ansible role have been sponsored by my employer **Pr
   * [ferm_default_weight](#ferm_default_weight)
   * [ferm_enabled](#ferm_enabled)
   * [ferm_extra_hooks](#ferm_extra_hooks)
+  * [ferm_general_dirs](#ferm_general_dirs)
   * [ferm_general_hooks](#ferm_general_hooks)
   * [ferm_general_rules](#ferm_general_rules)
+  * [ferm_group_dirs](#ferm_group_dirs)
   * [ferm_group_rules](#ferm_group_rules)
+  * [ferm_host_dirs](#ferm_host_dirs)
   * [ferm_host_rules](#ferm_host_rules)
   * [ferm_raw_rules](#ferm_raw_rules)
 * [Dependencies](#dependencies)
@@ -92,6 +95,24 @@ List of extra hook scripts
 ferm_extra_hooks: []
 ```
 
+### ferm_general_dirs
+
+List of general directories for chains
+
+#### Default value
+
+```YAML
+ferm_general_dirs:
+  - /etc/ferm/before.d
+  - /etc/ferm/ferm.d
+  - /etc/ferm/input.d
+  - /etc/ferm/output.d
+  - /etc/ferm/forward.d
+  - /etc/ferm/pre.d
+  - /etc/ferm/post.d
+  - /etc/ferm/flush.d
+```
+
 ### ferm_general_hooks
 
 List of general hook scripts
@@ -116,6 +137,16 @@ ferm_general_rules:
     content: "proto tcp dport ssh ACCEPT;\n"
 ```
 
+### ferm_group_dirs
+
+List of group directories for chains
+
+#### Default value
+
+```YAML
+ferm_group_dirs: []
+```
+
 ### ferm_group_rules
 
 List of group rule definitions
@@ -124,6 +155,16 @@ List of group rule definitions
 
 ```YAML
 ferm_group_rules: []
+```
+
+### ferm_host_dirs
+
+List of host directories for chains
+
+#### Default value
+
+```YAML
+ferm_host_dirs: []
 ```
 
 ### ferm_host_rules

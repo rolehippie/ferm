@@ -39,6 +39,23 @@ ferm_raw_rules: |
 
   @include ferm.d/;
 
+# @var ferm_general_dirs:description: List of general directories for chains
+ferm_general_dirs:
+  - /etc/ferm/before.d
+  - /etc/ferm/ferm.d
+  - /etc/ferm/input.d
+  - /etc/ferm/output.d
+  - /etc/ferm/forward.d
+  - /etc/ferm/pre.d
+  - /etc/ferm/post.d
+  - /etc/ferm/flush.d
+
+# @var ferm_group_dirs:description: List of group directories for chains
+ferm_group_dirs: []
+
+# @var ferm_host_dirs:description: List of host directories for chains
+ferm_host_dirs: []
+
 # @var ferm_general_rules:description: List of general rule definitions
 ferm_general_rules:
   - name: ssh
