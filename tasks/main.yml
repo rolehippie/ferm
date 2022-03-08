@@ -15,6 +15,7 @@
     path: "{{ item }}"
     owner: root
     group: root
+    mode: u=rwx,g=rx,o=rx
     state: directory
   tags:
     - ferm
@@ -25,6 +26,9 @@
   template:
     src: default.j2
     dest: /etc/default/ferm
+    owner: root
+    group: root
+    mode: u=rw,g=r,o=r
   tags:
     - ferm
 
@@ -34,6 +38,9 @@
   template:
     src: config.j2
     dest: /etc/ferm/ferm.conf
+    owner: root
+    group: adm
+    mode: u=rw,g=r,o=r
   tags:
     - ferm
 
