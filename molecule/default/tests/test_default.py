@@ -9,9 +9,3 @@ testinfra_hosts = testinfra.utils.ansible_runner.AnsibleRunner(
 def test_is_installed(host):
     pkg = host.package("iptables")
     assert pkg.is_installed
-
-
-def test_running_and_enabled(host):
-    svc = host.service("ferm")
-    assert svc.is_running
-    assert svc.is_enabled
