@@ -2,7 +2,7 @@
 - name: Install required packages
   loop:
     - ferm
-  package:
+  ansible.builtin.package:
     name: "{{ item }}"
     state: present
   tags:
@@ -10,7 +10,7 @@
 
 - name: Create required directories
   loop: "{{ ferm_general_dirs + ferm_group_dirs + ferm_host_dirs }}"
-  file:
+  ansible.builtin.file:
     path: "{{ item }}"
     owner: root
     group: root
@@ -22,7 +22,7 @@
 - name: Write default config
   notify:
     - Restart ferm
-  template:
+  ansible.builtin.template:
     src: default.j2
     dest: /etc/default/ferm
     owner: root
@@ -34,7 +34,7 @@
 - name: Write general config
   notify:
     - Restart ferm
-  template:
+  ansible.builtin.template:
     src: config.j2
     dest: /etc/ferm/ferm.conf
     owner: root
@@ -50,7 +50,7 @@
   when: item.state | default("present") == "present" and item.content | default(False)
   notify:
     - Restart ferm
-  copy:
+  ansible.builtin.copy:
     content: "{{ item.content }}"
     dest: "/etc/ferm/{{ item.type | default('ferm') }}.d/{{ item.weight | default(ferm_default_weight) }}_{{ item.name }}.ferm"
     owner: root
@@ -66,7 +66,7 @@
   when: item.state | default("present") == "present" and item.src | default(False)
   notify:
     - Restart ferm
-  template:
+  ansible.builtin.template:
     src: "{{ item.src }}"
     dest: "/etc/ferm/{{ item.type | default('ferm') }}.d/{{ item.weight | default(ferm_default_weight) }}_{{ item.name }}.ferm"
     owner: root
@@ -82,7 +82,7 @@
   when: item.state | default("present") == "absent"
   notify:
     - Restart ferm
-  file:
+  ansible.builtin.file:
     path: "/etc/ferm/{{ item.type | default('ferm') }}.d/{{ item.weight | default(ferm_default_weight) }}_{{ item.name }}.ferm"
     state: absent
   tags:
@@ -95,7 +95,7 @@
   when: item.state | default("present") == "present" and item.content | default(False)
   notify:
     - Restart ferm
-  copy:
+  ansible.builtin.copy:
     content: "{{ item.content }}"
     dest: "/etc/ferm/{{ item.type | mandatory }}.d/{{ item.weight | default(ferm_default_weight) }}_{{ item.name }}"
     owner: root
@@ -111,7 +111,7 @@
   when: item.state | default("present") == "present" and item.src | default(False)
   notify:
     - Restart ferm
-  template:
+  ansible.builtin.template:
     src: "{{ item.src }}"
     dest: "/etc/ferm/{{ item.type | mandatory }}.d/{{ item.weight | default(ferm_default_weight) }}_{{ item.name }}"
     owner: root
@@ -127,14 +127,14 @@
   when: item.state | default("present") == "absent"
   notify:
     - Restart ferm
-  file:
+  ansible.builtin.file:
     path: "/etc/ferm/{{ item.type | mandatory }}.d/{{ item.weight | default(ferm_default_weight) }}_{{ item.name }}"
     state: absent
   tags:
     - ferm
 
 - name: Start ferm service
-  systemd:
+  ansible.builtin.systemd:
     name: ferm
     state: "{{ 'started' if ferm_enabled else 'stopped' }}"
     daemon_reload: True
