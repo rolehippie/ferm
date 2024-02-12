@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.0.0](https://github.com/rolehippie/ferm/compare/v1.0.1...v2.0.0) (2024-02-12)
+
+
+### Features
+
+* drop support for ubuntu 18.04 ([ce8f56c](https://github.com/rolehippie/ferm/commit/ce8f56c5d9230c05a9db73bb1b1acb3b743cc214))
+* used full qualified collection names ([f9849b9](https://github.com/rolehippie/ferm/commit/f9849b951d36fe6bfd5b790977a140f6e2978361))
+
 ## [1.0.1](https://github.com/rolehippie/ferm/compare/v1.0.0...v1.0.1) (2023-05-11)
 
 
