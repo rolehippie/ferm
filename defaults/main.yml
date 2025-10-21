@@ -1,6 +1,6 @@
 ---
 # @var ferm_enabled:description: Generally enable or disable ferm
-ferm_enabled: True
+ferm_enabled: true
 
 # @var ferm_raw_rules:description: Raw rules applied with ferm
 ferm_raw_rules: |

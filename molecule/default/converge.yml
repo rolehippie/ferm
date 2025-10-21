@@ -2,7 +2,7 @@
 - name: Converge
   hosts: all
   vars:
-    ferm_enabled: False
+    ferm_enabled: false
   roles:
     - role: rolehippie.ferm
 

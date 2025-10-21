@@ -47,7 +47,9 @@
   loop: "{{ ferm_general_rules + ferm_group_rules + ferm_host_rules }}"
   loop_control:
     label: "{{ item.type | default('ferm') }}: {{ item.name }}"
-  when: item.state | default("present") == "present" and item.content | default(False)
+  when:
+    - false if item.content is not defined else (item.content | length > 0)
+    - true if item.state is not defined else item.state == "present"
   notify:
     - Restart ferm
   ansible.builtin.copy:
@@ -63,7 +65,9 @@
   loop: "{{ ferm_general_rules + ferm_group_rules + ferm_host_rules }}"
   loop_control:
     label: "{{ item.type | default('ferm') }}: {{ item.name }}"
-  when: item.state | default("present") == "present" and item.src | default(False)
+  when:
+    - false if item.src is not defined else (item.src | length > 0)
+    - true if item.state is not defined else item.state == "present"
   notify:
     - Restart ferm
   ansible.builtin.template:
@@ -79,7 +83,8 @@
   loop: "{{ ferm_general_rules + ferm_group_rules + ferm_host_rules }}"
   loop_control:
     label: "{{ item.type | default('ferm') }}: {{ item.name }}"
-  when: item.state | default("present") == "absent"
+  when:
+    - false if item.state is not defined else item.state == "absent"
   notify:
     - Restart ferm
   ansible.builtin.file:
@@ -92,7 +97,9 @@
   loop: "{{ ferm_general_hooks + ferm_extra_hooks }}"
   loop_control:
     label: "{{ item.type | default('unknown') }}: {{ item.name }}"
-  when: item.state | default("present") == "present" and item.content | default(False)
+  when:
+    - false if item.content is not defined else (item.content | length > 0)
+    - true if item.state is not defined else item.state == "present"
   notify:
     - Restart ferm
   ansible.builtin.copy:
@@ -108,7 +115,9 @@
   loop: "{{ ferm_general_hooks + ferm_extra_hooks }}"
   loop_control:
     label: "{{ item.type | default('unknown') }}: {{ item.name }}"
-  when: item.state | default("present") == "present" and item.src | default(False)
+  when:
+    - false if item.src is not defined else (item.src | length > 0)
+    - true if item.state is not defined else item.state == "present"
   notify:
     - Restart ferm
   ansible.builtin.template:
@@ -124,7 +133,8 @@
   loop: "{{ ferm_general_hooks + ferm_extra_hooks }}"
   loop_control:
     label: "{{ item.type | default('unknown') }}: {{ item.name }}"
-  when: item.state | default("present") == "absent"
+  when:
+    - false if item.state is not defined else item.state == "absent"
   notify:
     - Restart ferm
   ansible.builtin.file:
@@ -137,9 +147,9 @@
   ansible.builtin.systemd:
     name: ferm
     state: "{{ 'started' if ferm_enabled else 'stopped' }}"
-    daemon_reload: True
-    masked: False
-    enabled: "{{ True if ferm_enabled else False }}"
+    daemon_reload: true
+    masked: false
+    enabled: "{{ true if ferm_enabled else false }}"
   tags:
     - ferm
 
