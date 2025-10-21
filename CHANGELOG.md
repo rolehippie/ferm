@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.1.0](https://github.com/rolehippie/ferm/compare/v2.0.0...v2.1.0) (2025-10-21)
+
+
+### Features
+
+* apply new repo structure and update linting ([7c97a55](https://github.com/rolehippie/ferm/commit/7c97a55c58a1b0078a2ade9b9df55bc0839278a7))
+
 ## [2.0.0](https://github.com/rolehippie/ferm/compare/v1.0.1...v2.0.0) (2024-02-12)
 
 
