@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.3.0](https://github.com/rolehippie/ferm/compare/v2.2.0...v2.3.0) (2026-08-10)
+
+### Dependencies
+
+* **minor:** update dependency pipx:ansible-doctor to v8.4.0 ([#49](https://github.com/rolehippie/ferm/issues/49)) ([fdab01f](https://github.com/rolehippie/ferm/commit/fdab01f87f30ae224d4d5a9e914abd3e550a9d88))
+* **patch:** update dependency python to v3.14.7 ([#47](https://github.com/rolehippie/ferm/issues/47)) ([3b8d181](https://github.com/rolehippie/ferm/commit/3b8d1810301f93040fc9f4570ff03c9ca4040d08))
+
 ## [2.2.0](https://github.com/rolehippie/ferm/compare/v2.1.0...v2.2.0) (2026-07-27)
 
 ## [2.1.0](https://github.com/rolehippie/ferm/compare/v2.0.0...v2.1.0) (2025-10-21)
