@@ -1,5 +1,14 @@
 # Changelog
 
+## [2.4.0](https://github.com/rolehippie/ferm/compare/v2.3.0...v2.4.0) (2026-08-17)
+
+### Dependencies
+
+* **minor:** update dependency pipx:ansible-lint to v26.8.0 ([#52](https://github.com/rolehippie/ferm/issues/52)) ([c5a09f5](https://github.com/rolehippie/ferm/commit/c5a09f5692b89999618f267511e77c8058f54ee8))
+* **minor:** update dependency pipx:molecule to v26.8.0 ([#53](https://github.com/rolehippie/ferm/issues/53)) ([7a2b690](https://github.com/rolehippie/ferm/commit/7a2b690440ba5406a7e768353cdb743dbf59b14e))
+* **patch:** update dependency pipx:ansible-core to v2.21.3 ([#50](https://github.com/rolehippie/ferm/issues/50)) ([bc08772](https://github.com/rolehippie/ferm/commit/bc087728ae37ad26e48fc4ececb348b32d729770))
+* **patch:** update dependency pre-commit to v4.6.2 ([#51](https://github.com/rolehippie/ferm/issues/51)) ([ac4964d](https://github.com/rolehippie/ferm/commit/ac4964d96a53b497256af3d56e99b25367e4c064))
+
 ## [2.3.0](https://github.com/rolehippie/ferm/compare/v2.2.0...v2.3.0) (2026-08-10)
 
 ### Dependencies
