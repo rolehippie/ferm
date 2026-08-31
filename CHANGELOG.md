@@ -1,5 +1,11 @@
 # Changelog
 
+## [2.4.1](https://github.com/rolehippie/ferm/compare/v2.4.0...v2.4.1) (2026-08-31)
+
+### Dependencies
+
+* **patch:** update dependency pipx:ansible-doctor to v8.4.1 ([#54](https://github.com/rolehippie/ferm/issues/54)) ([f487de1](https://github.com/rolehippie/ferm/commit/f487de18bfdd490c756c932aa0ac80db38739154))
+
 ## [2.4.0](https://github.com/rolehippie/ferm/compare/v2.3.0...v2.4.0) (2026-08-17)
 
 ### Dependencies
