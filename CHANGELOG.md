@@ -1,5 +1,11 @@
 # Changelog
 
+## [2.5.0](https://github.com/rolehippie/ferm/compare/v2.4.1...v2.5.0) (2026-09-07)
+
+### Features
+
+* add separate requirements for molecule run ([181cb8a](https://github.com/rolehippie/ferm/commit/181cb8a66acbc60c88b3729acfc85eccc827fb84))
+
 ## [2.4.1](https://github.com/rolehippie/ferm/compare/v2.4.0...v2.4.1) (2026-08-31)
 
 ### Dependencies
